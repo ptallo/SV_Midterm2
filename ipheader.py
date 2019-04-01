@@ -12,18 +12,19 @@ class IPPacket:
         self.create_ipv4_fields_list()
 
     def assemble_ipv4_fields(self):
-        self.raw = struct.pack('!BBHHHBBH4s4s',
-                               self.ip_ver,   # IP Version
-                               self.ip_dfc,   # Differentiate Service Feild
-                               self.ip_tol,   # Total Length
-                               self.ip_idf,   # Identification
-                               self.ip_flg,   # Flags
-                               self.ip_ttl,   # Time to leave
-                               self.ip_proto,  # protocol
-                               self.ip_chk,   # Checksum
-                               self.ip_saddr,  # Source IP
-                               self.ip_daddr  # Destination IP
-                               )
+        self.raw = struct.pack(
+            '!BBHHHBBH4s4s',
+            self.ip_ver,    # IP Version
+            self.ip_dfc,    # Differentiate Service Field
+            self.ip_tol,    # Total Length
+            self.ip_idf,    # Identification
+            self.ip_flg,    # Flags
+            self.ip_ttl,    # Time to leave
+            self.ip_proto,  # Protocol
+            self.ip_chk,    # Checksum
+            self.ip_saddr,  # Source IP
+            self.ip_daddr   # Destination IP
+        )
         return self.raw
 
     def create_ipv4_fields_list(self):
