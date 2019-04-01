@@ -1,7 +1,7 @@
 # Script for sending a IPv4 packet with a custom header
 # Retrieved from http://www.bitforestinfo.com/2017/12/code-to-create-ipv4-packet-header-in-python.html
 
-import socket
+import socket, struct
 
 class IPPacket:
  def __init__(self, dst='127.0.0.1', src='192.168.1.101'):
