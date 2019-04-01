@@ -15,11 +15,11 @@ class IPPacket:
         self.raw = struct.pack(
             '!BBHHHBBH4s4s',
             self.ip_ver,    # IP Version
-            self.ip_dfc,    # Differentiate Service Field
+            self.ip_dfc,    # Differentiated Service Field
             self.ip_tol,    # Total Length
             self.ip_idf,    # Identification
             self.ip_flg,    # Flags
-            self.ip_ttl,    # Time to leave
+            self.ip_ttl,    # Time to live
             self.ip_proto,  # Protocol
             self.ip_chk,    # Checksum
             self.ip_saddr,  # Source IP
@@ -35,7 +35,7 @@ class IPPacket:
 
         self.ip_ver = (ip_ver << 4) + ip_vhl
 
-        # ---- [ Differentiate Servic Field ]
+        # ---- [ Differentiated Service Field ]
         ip_dsc = 0
         ip_ecn = 0
 
@@ -62,7 +62,7 @@ class IPPacket:
         # ---- [ Protocol ]
         self.ip_proto = socket.IPPROTO_TCP
 
-        # ---- [ Check Sum ]
+        # ---- [ Checksum ]
         self.ip_chk = 0
 
         # ---- [ Source Address ]
@@ -75,7 +75,7 @@ class IPPacket:
 
 
 if __name__ == '__main__':
-        # Create Raw Socket
+    # Create Raw Socket
     s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
 
     ip = IPPacket()
