@@ -56,7 +56,7 @@ class IPPacket:
         self.ip_flg = (ip_rsv << 7) + (ip_dtf << 6) + \
             (ip_mrf << 5) + (ip_frag_offset)
 
-        # ---- [ Total Length ]
+        # ---- [ Time to Live ]
         self.ip_ttl = 255
 
         # ---- [ Protocol ]
