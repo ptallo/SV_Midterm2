@@ -1,0 +1,4 @@
+#!/bin/sh
+sudo tcpdump -nvvX port 8888 -i lo
+read -p press-return-to-quit
+

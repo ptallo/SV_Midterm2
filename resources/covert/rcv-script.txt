@@ -1,0 +1,13 @@
+#!/bin/sh
+mkdir /tmp/receive
+mkdir /tmp/send
+touch /tmp/receive/receive.txt
+echo Hello-there-buddy > /tmp/send/send.txt
+cp covert_tcp /tmp/receive/
+cp covert_tcp /tmp/send/
+cd /tmp/receive
+#sudo /home/franco/Courses/C6056/Notes/OtherOSVulns/Covert/covert_tcp -dest 127.0.0.1 -source 127.0.0.1 -source_port 8888 -dest_port 9999 -server -file /tmp/receive/receive.txt
+sudo ./covert_tcp -dest 127.0.0.1 -source 127.0.0.1 -source_port 8888 -dest_port 9999 -server -file /tmp/receive/receive.txt
+read -p press-return-to-cat-receive.txt
+cat /tmp/receive/receive.txt 
+read -p press-return-to-quit

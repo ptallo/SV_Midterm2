@@ -1,0 +1,9 @@
+#!/bin/sh
+cd /tmp/send
+echo Hello-there-buds > send.txt
+echo contents-of-send.txt:
+cat send.txt 
+read -p press-return-to-transmit-send.txt-covertly
+#sudo /home/franco/Courses/C6056/Notes/OtherOSVulns/Covert/covert_tcp -dest 127.0.0.1 -source 127.0.0.1 -source_port 9999 -dest_port 8888 -file /tmp/send/send.txt
+sudo ./covert_tcp -dest 127.0.0.1 -source 127.0.0.1 -source_port 9999 -dest_port 8888 -file /tmp/send/send.txt
+read -p press-return-to-quit

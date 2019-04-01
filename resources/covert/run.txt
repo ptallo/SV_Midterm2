@@ -1,0 +1,5 @@
+#!/bin/sh
+xterm -fn 10x20 -e rcv-script &
+xterm -fn 10x20 -e dump-script &
+sleep 2
+xterm -fn 10x20 -e xmit-script &

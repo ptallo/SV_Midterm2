@@ -1,0 +1,4 @@
+#!/bin/sh
+xterm -fn 10x20 -e "mkdir /tmp/receive; mkdir /tmp/send; touch /tmp/receive/receive.txt; echo Hello-there-buddy > /tmp/send/send.txt; cd /tmp/receive; sudo /home/franco/Courses/C6056/Notes/OtherOSVulns/Covert/covert_tcp -dest 127.0.0.1 -source 127.0.0.1 -source_port 8888 -dest_port 9999 -server -file /tmp/receive/receive.txt; read -p press-return-to-cat-receive.txt; cat /tmp/receive/receive.txt; read -p press-return-to-quit" &
+xterm -fn 10x20 -e "sudo tcpdump -nvvX port 8888 -i lo; read -p press-return-to-quit" &
+xterm -fn 10x20 -e "cd /tmp/send; echo Hello-there-buds > send.txt; echo contents-of-send.txt:; cat send.txt; read -p press-return-to-transmit-send.txt-covertly; sudo /home/franco/Courses/C6056/Notes/OtherOSVulns/Covert/covert_tcp -dest 127.0.0.1 -source 127.0.0.1 -source_port 9999 -dest_port 8888 -file /tmp/send/send.txt; read -p press-return-to-quit" &
