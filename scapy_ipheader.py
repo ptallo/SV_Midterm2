@@ -50,7 +50,10 @@ def encode_message_in_packets(packets, message):
 
 
 def encode_character_in_string(string_to_modify, character):
-    return string_to_modify
+    bits_to_encode = string_to_bits(string_to_modify)
+    code_bits = string_to_bits(character)
+    bits_to_encode[len(bits_to_encode) - len(code_bits):] = code_bits
+    return bits_to_encode
 
 
 def decode_message_from_packets(packets):
@@ -62,6 +65,23 @@ def decode_message_from_packets(packets):
 
 def decode_character_from_packet(p):
     return "A"
+
+
+def string_to_bits(s):
+    result = []
+    for c in s:
+        bits = bin(ord(c))[2:]
+        bits = '00000000'[len(bits):] + bits
+        result.extend([int(b) for b in bits])
+    return result
+
+
+def bits_to_string(bits):
+    chars = []
+    for b in range(int(len(bits) / 8)):
+        byte = bits[b * 8:(b + 1) * 8]
+        chars.append(chr(int(''.join([str(bit) for bit in byte]), 2)))
+    return ''.join(chars)
 
 
 if __name__ == "__main__":
