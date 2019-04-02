@@ -34,18 +34,22 @@ class IPPacket:
         ip_vhl = 5
 
         self.ip_ver = (ip_ver << 4) + ip_vhl
+        print("IP Version : " + str(self.ip_ver))
 
         # ---- [ Differentiated Service Field ]
         ip_dsc = 0
         ip_ecn = 0
 
         self.ip_dfc = (ip_dsc << 2) + ip_ecn
+        print("Differentiated Service Field : " + str(self.ip_dfc))
 
         # ---- [ Total Length]
         self.ip_tol = 0
+        print("Total Length : " + str(self.ip_tol))
 
         # ---- [ Identification ]
         self.ip_idf = 54321
+        print("Identification : " + str(self.ip_idf))
 
         # ---- [ Flags ]
         ip_rsv = 0
@@ -55,21 +59,29 @@ class IPPacket:
 
         self.ip_flg = (ip_rsv << 7) + (ip_dtf << 6) + \
             (ip_mrf << 5) + (ip_frag_offset)
+        
+        print("IP Flags : " + str(self.ip_flg))
 
         # ---- [ Time to Live ]
         self.ip_ttl = 255
+        print("Time to Live : " + str(self.ip_ttl))
 
         # ---- [ Protocol ]
         self.ip_proto = socket.IPPROTO_TCP
+        print("Protocol : " + str(self.ip_proto))
 
         # ---- [ Checksum ]
         self.ip_chk = 0
+        print("Checksum : " + str(self.ip_chk))
 
         # ---- [ Source Address ]
         self.ip_saddr = socket.inet_aton(self.src)
+        print("Source Address : " + str(self.ip_saddr))
 
         # ---- [ Destination Address ]
         self.ip_daddr = socket.inet_aton(self.dst)
+        print("Destination Address : " + str(self.dst))
+
 
         return
 
