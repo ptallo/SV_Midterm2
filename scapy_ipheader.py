@@ -18,6 +18,7 @@ def main():
     sys.stdout = open("output/packets.txt", 'w')
 
     sniffedPackets = sniff(store=1, count=12)
+    #TODO: add filter to sniff to throw out packets that do not match the IP src and dst
 
     # Send packets, collect responses, display packets
     for p in packets:
