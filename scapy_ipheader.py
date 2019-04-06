@@ -1,9 +1,10 @@
 import os
 import sys
+from scapy.all import *
 
 # Imports from our project
-import encoding_scheme
-import utility
+from encoding_scheme import *
+from utility import *
 
 
 def main():
@@ -13,13 +14,12 @@ def main():
     responses = []
 
     # Encode message into packet ID
-    encode_message_in_packets(packets, message)
-
-    sys.stdout = open("output/packets.txt", 'w')
+    IPSteg.encode_message_in_packets(packets, message)
 
     sniffedPackets = sniff(store=1, count=12)
 
     # Send packets, collect responses, display packets
+    sys.stdout = open("output/packets.txt", 'w')
     for p in packets:
         responses.append(sr1(p))
         p.show()
@@ -36,7 +36,7 @@ def main():
 
     # Output the message
     sys.stdout = open("output/message.txt", 'w')
-    print(decode_message_from_packets(responses))
+    print(IPSteg.decode_message_from_packets(responses))
 
 
 def sniffPackets(packet):
