@@ -38,3 +38,5 @@ SVMidterm_env/
 \.idea/
 
 output/
+
+__pycache__/
