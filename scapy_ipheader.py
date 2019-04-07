@@ -9,15 +9,21 @@ from utility import *
 
 def main():
     message = "Hello World!"
-    # Create 12 packets
-    packets = [IP(dst="github.com") / TCP() for x in range(12)]
+    num_packets = len(message)
+
+    # Create 1 packet for each character in the message
+    packets = [IP(dst="github.com") / TCP() for x in range(num_packets)]
     responses = []
 
     # Encode message into packet ID
     IPSteg.encode_message_in_packets(packets, message)
 
-    sniffedPackets = sniff(store=1, count=12)
-    #TODO: add filter to sniff to throw out packets that do not match the IP src and dst
+    # Create Berkeley Packet Filter (BPF) string for sniffing packets
+    # Filter will throw out any packets that do not match the IP src and dst
+    bpf_filter = "dst host github.com and src host localhost"
+
+    # Sniff until num_packets packets match the BPF filter
+    sniffedPackets = sniff(store=True, count=num_packets, filter=bpf_filter)
 
     # Send packets, collect responses, display packets
     sys.stdout = open("output/packets.txt", 'w')
