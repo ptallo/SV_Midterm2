@@ -1,6 +1,5 @@
 from scapy.all import *
 from utility import *
-import numpy as np
 
 escape_sequence = chr(65535)
 
