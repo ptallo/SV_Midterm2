@@ -1,5 +1,6 @@
 from scapy.all import *
 from utility import *
+import numpy as np
 
 
 class SteganographyScheme:
@@ -22,18 +23,12 @@ class SteganographyScheme:
 
 class IpIdSteganography(SteganographyScheme):
     def encode_character_in_string(self, input_packet, character):
-        string_to_modify = input_packet[IP].id
-        if type(string_to_modify) != str:
-            string_to_modify = str(string_to_modify)
-        bits_to_encode = string_to_bits(string_to_modify)
-        code_bits = string_to_bits(character)
-        bits_to_encode[len(bits_to_encode) - len(code_bits):] = code_bits
-        input_packet[IP].id = bits_to_string(bits_to_encode)
+        input_packet[IP].id = ord(character)
+        if len(str(character)) > 2:
+            raise Exception("Stringified number length is too long!")
 
     def decode_character_from_packet(self, input_packet):
-        id_bits = string_to_bits(input_packet[IP].id)
-        bits_to_decode = id_bits[len(id_bits) - 8:]
-        return bits_to_string(bits_to_decode)
+        return chr(input_packet[IP].id)
 
 
 def test_encode_decode_from_packets():
@@ -45,3 +40,8 @@ def test_encode_decode_from_packets():
     decoded_message = ip_steg.decode_message_from_packets(packets)
     if message != decoded_message:
         raise AssertionError("Message not equal to Decoded Message!")
+    print(decoded_message)
+
+
+if __name__ == "__main__":
+    test_encode_decode_from_packets()

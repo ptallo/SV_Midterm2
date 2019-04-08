@@ -18,7 +18,11 @@ def main():
     ip_steg.encode_message_in_packets(packets, message)
 
     # Send packets, collect responses, display packets
-    send(packets)
+    sys.stdout = open("output/packets.txt", 'w')
+    # for p in packets:
+    #     p.show()
+    response = sr1(packets[0])
+    response.show()
 
 
 if __name__ == "__main__":
