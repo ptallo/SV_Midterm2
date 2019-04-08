@@ -9,14 +9,16 @@ from utility import *
 def filter_packet(p):
     return p[TCP].seq == 0
 
+def end_filter(p):
+    return p[IP].id == 65535
+
 def main():
-    num_packets = 13
     # Create Berkeley Packet Filter (BPF) string for sniffing packets
     # Filter will throw out any packets that do not match the IP src and dst
     bpf_filter = "dst host yahoo.com"
 
     # Sniff until num_packets packets match the BPF filter
-    sniffed_packets = sniff(store=True, count=num_packets, filter=bpf_filter, lfilter=filter_packet)
+    sniffed_packets = sniff(store=True, filter=bpf_filter, lfilter=filter_packet, stop_filter=end_filter)
 
     sys.stdout = open("output/message.txt", 'w')
     ip_steg = IpIdSteganography()

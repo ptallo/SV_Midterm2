@@ -9,7 +9,7 @@ from utility import *
 
 def main():
     # Create 1 packet for each character in the message
-    message = "Hello World!"
+    message = "Phil is the best coder in the world and chris and solomon aren't"
     packets = [IP(dst="yahoo.com") / TCP() for x in range(len(message)+1)]
 
     # Encode message into packet ID
