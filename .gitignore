@@ -33,6 +33,8 @@
 
 \.vscode/
 
+\.vs/
+
 SVMidterm_env/
 
 \.idea/
