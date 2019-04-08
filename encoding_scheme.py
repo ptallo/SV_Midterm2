@@ -13,7 +13,7 @@ class SteganographyScheme:
     def decode_message_from_packets(self, packets):
         message = []
         for p in packets:
-            message.append(decode_character_from_packet(p))
+            message.append(self.decode_character_from_packet(p))
         return "".join(message)
 
     def decode_character_from_packet(self, input_packet):
@@ -40,7 +40,8 @@ def test_encode_decode_from_packets():
     message = "Hello World!"
     packets = [IP(dst="github.com") / TCP() for x in range(12)]
 
-    IpIdSteganography.encode_message_in_packets(packets, message)
-    decoded_message = IpIdSteganography.decode_message_from_packets(packets)
+    ip_steg = IpIdSteganography()
+    ip_steg.encode_message_in_packets(packets, message)
+    decoded_message = ip_steg.decode_message_from_packets(packets)
     if message != decoded_message:
         raise AssertionError("Message not equal to Decoded Message!")
