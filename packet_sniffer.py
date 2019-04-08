@@ -1,4 +1,10 @@
-import encoding_scheme
+import os
+import sys
+from scapy.all import *
+
+# Imports from our project
+from encoding_scheme import *
+from utility import *
 
 
 def main():
@@ -12,6 +18,7 @@ def main():
     sys.stdout = open("output/packets.txt", 'w')
     ip_steg = IpIdSteganography()
     print(ip_steg.decode_message_from_packets(sniffed_packets))
+
 
 if __name__ == "__main__":
     main()

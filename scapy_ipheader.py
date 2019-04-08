@@ -10,7 +10,7 @@ from utility import *
 def main():
     # Create 1 packet for each character in the message
     message = "Hello World!"
-    packets = [IP(dst="github.com") / TCP() for x in range(num_packets)]
+    packets = [IP(dst="github.com") / TCP() for x in range(len(message))]
     responses = []
 
     # Encode message into packet ID
@@ -18,11 +18,7 @@ def main():
     ip_steg.encode_message_in_packets(packets, message)
 
     # Send packets, collect responses, display packets
-    sys.stdout = open("output/packets.txt", 'w')
-    for p in packets:
-        response = sr1(p)
-        responses.append(response)
-        p.show()
+    send(packets)
 
 
 if __name__ == "__main__":
