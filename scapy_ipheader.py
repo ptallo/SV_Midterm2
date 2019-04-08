@@ -16,7 +16,8 @@ def main():
     responses = []
 
     # Encode message into packet ID
-    IPSteg.encode_message_in_packets(packets, message)
+    ip_steg = IpIdSteganography()
+    ip_steg.encode_message_in_packets(packets, message)
 
     # Create Berkeley Packet Filter (BPF) string for sniffing packets
     # Filter will throw out any packets that do not match the IP src and dst
@@ -31,10 +32,6 @@ def main():
         responses.append(sr1(p))
         p.show()
 
-    sys.stdout = open("output/sniffedPackets.txt", 'w')
-    for p in sniffedPackets:
-        p.show()
-
     sys.stdout = open("output/responses.txt", 'w')
     # Display responses
     for i, r in enumerate(responses):
@@ -43,14 +40,14 @@ def main():
 
     # Output the message
     sys.stdout = open("output/message.txt", 'w')
-    print(IPSteg.decode_message_from_packets(responses))
+    print(ip_steg.decode_message_from_packets(responses))
 
 
-def sniffPackets(packet):
-    if packet.haslayer(IP):
-        pckt_src = str(packet[IP].src)
-        pckt_dst = str(packet[IP].dst)
-        pckt_ttl = str(packet[IP].ttl)
+def sniffPackets(p):
+    if p.haslayer(IP):
+        pckt_src = str(p[IP].src)
+        pckt_dst = str(p[IP].dst)
+        pckt_ttl = str(p[IP].ttl)
         print("IP Packet:" + pckt_src + " is going to " + pckt_dst + " and has ttl value " + pckt_ttl)
 
 

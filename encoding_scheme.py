@@ -3,16 +3,14 @@ from utility import *
 
 
 class SteganographyScheme:
-    @staticmethod
-    def encode_message_in_packets(packets, message):
+    def encode_message_in_packets(self, packets, message):
         for i, c in enumerate(message):
             self.encode_character_in_string(packets[i], c)
 
     def encode_character_in_string(self, input_packet, character):
         raise NotImplementedError("Abstract Class, this is not implemented")
 
-    @staticmethod
-    def decode_message_from_packets(packets):
+    def decode_message_from_packets(self, packets):
         message = []
         for p in packets:
             message.append(decode_character_from_packet(p))
@@ -22,7 +20,7 @@ class SteganographyScheme:
         raise NotImplementedError("Abstract Class, this is not implemented")
 
 
-class IPSteg(SteganographyScheme):
+class IpIdSteganography(SteganographyScheme):
     def encode_character_in_string(self, input_packet, character):
         string_to_modify = input_packet[IP].id
         if type(string_to_modify) != str:
@@ -42,7 +40,7 @@ def test_encode_decode_from_packets():
     message = "Hello World!"
     packets = [IP(dst="github.com") / TCP() for x in range(12)]
 
-    IPSteg.encode_message_in_packets(packets, message)
-    decoded_message = IPSteg.decode_message_from_packets(packets)
+    IpIdSteganography.encode_message_in_packets(packets, message)
+    decoded_message = IpIdSteganography.decode_message_from_packets(packets)
     if message != decoded_message:
         raise AssertionError("Message not equal to Decoded Message!")
