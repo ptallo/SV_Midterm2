@@ -42,3 +42,5 @@ SVMidterm_env/
 output/
 
 __pycache__/
+
+sv-midterm-env/
