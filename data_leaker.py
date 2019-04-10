@@ -12,7 +12,7 @@ def main():
     os.makedirs(output_path, exist_ok=True)
 
     # Create 1 packet for each character in the message
-    message = "Phil is the best coder in the world and chris and solomon aren't"
+    message = "Solomon and Chris are the best coder in the world and Phil aren't"
     packets = [IP(dst="yahoo.com") / TCP() for x in range(len(message) + 1)]
 
     # Encode message into packet ID
