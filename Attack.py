@@ -1,5 +1,5 @@
 from logging import getLogger, ERROR
-from scapy import *
+from scapy.all import *
 import sys
 import argparse
 from datetime import datetime
@@ -89,37 +89,7 @@ def get_args():
 
 
 def main():
-    # get the arguments from the command line
-    parser = argparse.ArgumentParser(description='ARP Poisoning Tool')
-    parser.add_argument('-i', '--interface', help='Network interface to attack on', action='store', dest='interface',
-                        default=False)
-    parser.add_argument('-t1', '--target1', help='First target for poisoning', action='store', dest='target1',
-                        default=False)
-    parser.add_argument('-t2', '--target2', help='Second Target for poisoning', action='store', dest='target2',
-                        default=False)
-    parser.add_argument('-f', '--forward', help='Auto-toggle IP forwarding', action='store_true', dest='forward',
-                        default=False)
-    parser.add_argument('-q', '--quit', help='Disable feedback message', action='store_true', dest='interface',
-                        default=False)
-    parser.add_argument('--clock', help='Track attack duration', action='store_true', dest='time', default=False)
-
-    # Get the arguments from the parser
-    args = parser.parse_args()
-
-    # If no arguments run the help and exit program
-    if len(sys.argv) == 1:
-        parser.print_help()
-        sys.exit(1)
-
-    # Targets must be passed in
-    elif not args.target1 or not args.target2:
-        parser.error("Invalid target specification")
-        sys.exit(1)
-
-    # interface must be specified
-    elif not args.interface:
-        parser.error("No network interface given")
-        sys.exit(1)
+    args = get_args()
 
     # start timer
     start = datetime.now()
@@ -136,6 +106,7 @@ def main():
     except Exception:
         print('[FAIL] \n [!] Failed to resolve target address(es)')
         sys.exit(1)
+
     try:
         if args.forward:
             print('[*] Enabling IP Forwarding...')
