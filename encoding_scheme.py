@@ -1,5 +1,4 @@
 from scapy.all import *
-from utility import *
 
 escape_sequence = chr(65535)
 

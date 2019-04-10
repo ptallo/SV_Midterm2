@@ -7,7 +7,7 @@ from encoding_scheme import *
 
 
 def filter_packet(p):
-    return p[TCP].seq == 0
+    return p.haslayer(IP) and p.haslayer(TCP) and p[TCP].seq == 0
 
 
 def end_filter(p):
@@ -19,13 +19,9 @@ def main():
     output_path = "./output/"
     os.makedirs(output_path, exist_ok=True)
 
-    # Create Berkeley Packet Filter (BPF) string for sniffing packets
-    # Filter will throw out any packets that do not match the IP src and dst
-    bpf_filter = "dst host yahoo.com"
-
     # Sniff until num_packets packets match the BPF filter
     print("Sniffing...")
-    sniffed_packets = sniff(store=True, filter=bpf_filter, lfilter=filter_packet, stop_filter=end_filter)
+    sniffed_packets = sniff(store=True, lfilter=filter_packet, stop_filter=end_filter)
 
     sys.stdout = open(output_path + "message.txt", 'w')
     ip_steg = IpIdSteganography()
