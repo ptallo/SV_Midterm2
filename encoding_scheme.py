@@ -35,6 +35,7 @@ class SteganographyScheme:
         return self.xor_two_str(message, ONE_TIME_PAD[0:len(message)])
 
     # Source for below function: https://stackoverflow.com/questions/36242887/how-to-xor-two-strings-in-python/36242949
+    # With small modifications
     def xor_two_str(self, a, b):
         xored = []
         for i in range(max(len(a), len(b))):
