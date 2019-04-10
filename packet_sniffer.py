@@ -4,13 +4,15 @@ from scapy.all import *
 
 # Imports from our project
 from encoding_scheme import *
-from utility import *
+
 
 def filter_packet(p):
     return p[TCP].seq == 0
 
+
 def end_filter(p):
     return p[IP].id == 65535
+
 
 def main():
     # Generate the output folder if it does not exist
