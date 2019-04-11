@@ -1,13 +1,27 @@
 import os
 import sys
 from scapy.all import *
+import time
+import random
 
 # Imports from our project
 from encoding_scheme import *
 
 
+shared_key = 6969
+random.seed(shared_key)
+max_sequence_value = 2 ** 32
+random_sequence = random.randint(0, max_sequence_value)
+
 def filter_packet(p):
-    return p.haslayer(IP) and p.haslayer(TCP) and p[TCP].seq == 0
+    global random_sequence
+    if p.haslayer(IP) and p.haslayer(TCP):
+        print(p[TCP].seq)
+        if p[TCP].seq == random_sequence:
+            random_sequence = random.randint(0, max_sequence_value)
+            print("got packet")
+            return True
+    return False
 
 
 def end_filter(p):

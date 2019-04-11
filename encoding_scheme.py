@@ -1,4 +1,5 @@
 from scapy.all import *
+import random
 
 # Escape character to indicate the end of a message
 escape_sequence = chr(65535)
@@ -7,14 +8,18 @@ escape_sequence = chr(65535)
 # A real attacker would only run this program once, and write a new program for subsequent attacks
 ONE_TIME_PAD = "oz81VXDcmSHM78yC8pOEzw8dlLJxOWh1d2vXfVsvEsY4SAhW4toUER8meGceU8C1cp568tDPkJHH5YHraun1gJbqHVSas5vNC9dfZZxtyAiavb9SxJrDgjdbRzxRhhsxwCSCyKL1lSog5BKBJGFB06tHXZ6RWTxGIWVt02RfNG8fstAUZXurJvS9EM4RrlREcP84E7LG"
 
+shared_key = 6969
+random.seed(shared_key)
+max_sequence_value = 2 ** 32
+
 class SteganographyScheme:
     def encode_message_in_packets(self, packets, message):
         message = self.encrypt_or_decrpyt(message)
         for i, c in enumerate(message):
-            self.encode_character_in_string(packets[i], c)
-        self.encode_character_in_string(packets[len(packets)-1], escape_sequence)
+            self.encode_character_in_packet(packets[i], c)
+        self.encode_character_in_packet(packets[len(packets) - 1], escape_sequence)
 
-    def encode_character_in_string(self, input_packet, character):
+    def encode_character_in_packet(self, input_packet, character):
         raise NotImplementedError("Abstract Class, this is not implemented")
 
     def decode_message_from_packets(self, packets):
@@ -44,8 +49,10 @@ class SteganographyScheme:
         return ''.join(xored)
 
 class IpIdSteganography(SteganographyScheme):
-    def encode_character_in_string(self, input_packet, character):
+    def encode_character_in_packet(self, input_packet, character):
         input_packet[IP].id = ord(character)
+        input_packet[TCP].seq = random.randint(0, max_sequence_value)
+        print(input_packet[TCP].seq)
         if len(str(character)) > 2:
             raise Exception("Stringified number length is too long!")
 
