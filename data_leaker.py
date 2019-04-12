@@ -1,9 +1,13 @@
 import os
 import sys
 from scapy.all import *
+import time
 
 # Imports from our project
 from encoding_scheme import *
+
+def filter_packet(p):
+    return p.haslayer(IP) and p.haslayer(TCP)
 
 
 def main():
@@ -12,18 +16,31 @@ def main():
     os.makedirs(output_path, exist_ok=True)
 
     # Create 1 packet for each character in the message
-    message = "Solomon and Chris are the best coder in the world and Phil aren't"
-    packets = [IP(dst="yahoo.com") / TCP() for x in range(len(message) + 1)]
-
-    # Encode message into packet ID
+    message = "Hello World!"
     ip_steg = IpIdSteganography()
-    ip_steg.encode_message_in_packets(packets, message)
+    encrypted_message = ip_steg.encrypt_or_decrypt(message)
 
+    sys.stdout = open("output/packets.txt", "w")
     # Send packets, collect responses, display packets
-    send(packets)
-    sys.stdout = open(output_path + "packets.txt", 'w')
-    for p in packets:
+    while len(encrypted_message) > 0:
+        # get the encrypted character
+        character_to_encrypt = encrypted_message[0]
+        encrypted_message = encrypted_message[1:]
+
+        # Create a packet and encode the character in the packet
+        p = IP(dst="yahoo.com") / TCP()
+        ip_steg.encode_character_in_packet(p, character_to_encrypt)
+        send(p)
         p.show()
+
+    # Send the end sequence to indicate that the message is finished being sent
+    p = IP(dst="yahoo.com") / TCP()
+    ip_steg.encode_character_in_packet(p, chr(65535))
+    send(p)
+    p.show()
+
+
+
 
 
 if __name__ == "__main__":

@@ -6,16 +6,11 @@ from scapy.all import *
 from encoding_scheme import *
 
 random.seed(6969)
-max_sequence_value = 2 ** 32
-next_sequence_number = random.randint(0, max_sequence_value)
+sequence_numbers = [random.randint(2 ** 31, 2 ** 32) for x in range(65)]
 
 
 def filter_packet(p):
-    global next_sequence_number
-    if p.haslayer(IP) and p.haslayer(TCP) and p[TCP].seq == next_sequence_number:
-        next_sequence_number = random.randint(0, max_sequence_value)
-        return True
-    return False
+    return p.haslayer(IP) and p.haslayer(TCP) and p[TCP].seq in sequence_numbers
 
 
 def end_filter(p):
