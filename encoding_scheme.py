@@ -1,13 +1,11 @@
 from scapy.all import *
 import random
 
-# Escape character to indicate the end of a message
-escape_sequence = chr(65535)
+import utility
 
 # For demonstration purposes, we use the same one-time pad for all executions
 # A real attacker would only run this program once, and write a new program for subsequent attacks
-ONE_TIME_PAD = "oz81VXDcmSHM78yC8pOEzw8dlLJxOWh1d2vXfVsvEsY4SAhW4toUER8meGceU8C1cp568tDPkJHH5YHraun1gJbqHVSas5vNC9dfZZxtyAiavb9SxJrDgjdbRzxRhhsxwCSCyKL1lSog5BKBJGFB06tHXZ6RWTxGIWVt02RfNG8fstAUZXurJvS9EM4RrlREcP84E7LG"
-random.seed(6969)
+random.seed(utility.get_random_seed())
 
 
 class SteganographyScheme:
@@ -15,7 +13,7 @@ class SteganographyScheme:
         message = self.encrypt_or_decrypt(message)
         for i, c in enumerate(message):
             self.encode_character_in_packet(packets[i], c)
-        self.encode_character_in_packet(packets[len(packets) - 1], escape_sequence)
+        self.encode_character_in_packet(packets[len(packets) - 1], utility.get_escape_sequence())
 
     def encode_character_in_packet(self, input_packet, character):
         raise NotImplementedError("Abstract Class, this is not implemented")
@@ -24,29 +22,13 @@ class SteganographyScheme:
         message = []
         for p in packets:
             character = self.decode_character_from_packet(p)
-            if character != escape_sequence:
+            if character != utility.get_escape_sequence():
                 message.append(character)
         encrypted_string = "".join(message)
-        return self.encrypt_or_decrypt(encrypted_string)
+        return utility.encrypt_or_decrypt(encrypted_string)
 
     def decode_character_from_packet(self, input_packet):
         raise NotImplementedError("Abstract Class, this is not implemented")
-
-    def encrypt_or_decrypt(self, message):
-        if len(message) > len(ONE_TIME_PAD):
-            raise Exception("Message is too long")
-        return self.xor_two_str(message, ONE_TIME_PAD[0:len(message)])
-
-    def xor_two_str(self, s1, s2):
-        """
-        Source for below function: https://stackoverflow.com/questions/36242887/how-to-xor-two-strings-in-python/36242949
-        With small modifications
-        """
-        xored = []
-        for i in range(max(len(s1), len(s2))):
-            xored_value = ord(s1[i % len(s1)]) ^ ord(s2[i % len(s2)])
-            xored.append(chr(xored_value))
-        return ''.join(xored)
 
 
 class IpIdSteganography(SteganographyScheme):

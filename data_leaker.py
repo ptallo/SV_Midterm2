@@ -2,6 +2,7 @@ import os
 import sys
 from scapy.all import *
 import time
+import utility
 
 # Imports from our project
 from encoding_scheme import *
@@ -16,9 +17,13 @@ def main():
     os.makedirs(output_path, exist_ok=True)
 
     # Create 1 packet for each character in the message
-    message = "Hello World!"
+    f = open("input/message.txt", "r")
+    lines = f.readlines()
+    f.close()
+
+    message = "".join(lines)
     ip_steg = IpIdSteganography()
-    encrypted_message = ip_steg.encrypt_or_decrypt(message)
+    encrypted_message = utility.encrypt_or_decrypt(message)
 
     sys.stdout = open("output/packets.txt", "w")
     # Send packets, collect responses, display packets

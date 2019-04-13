@@ -1,12 +1,13 @@
 import os
 import sys
+import utility
 from scapy.all import *
 
 # Imports from our project
 from encoding_scheme import *
 
-random.seed(6969)
-sequence_numbers = [random.randint(2 ** 31, 2 ** 32) for x in range(65)]
+random.seed(utility.get_random_seed())
+sequence_numbers = [random.randint(2 ** 31, 2 ** 32) for x in range(len(utility.get_one_time_pad()))]
 
 
 def filter_packet(p):
