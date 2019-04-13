@@ -15,7 +15,7 @@ def filter_packet(p):
 
 
 def end_filter(p):
-    return p[IP].id == 65535
+    return p[IP].id == utility.get_escape_sequence()
 
 
 def main():
@@ -27,11 +27,13 @@ def main():
     print("Sniffing...")
     sniffed_packets = sniff(store=True, lfilter=filter_packet, stop_filter=end_filter)
 
-    sys.stdout = open(output_path + "message.txt", 'w')
+    sys.stdout = open(output_path + "recieved_packets.txt", 'w')
     ip_steg = IpIdSteganography()
-    print("MESSAGE: " + ip_steg.decode_message_from_packets(sniffed_packets[:len(sniffed_packets)-1]) + "\n\n")
     for p in sniffed_packets:
         p.show()
+
+    sys.stdout = open(output_path + "message.txt", 'w')
+    print(ip_steg.decode_message_from_packets(sniffed_packets, sequence_numbers))
 
 
 if __name__ == "__main__":

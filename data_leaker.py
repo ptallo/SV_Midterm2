@@ -25,7 +25,7 @@ def main():
     ip_steg = IpIdSteganography()
     encrypted_message = utility.encrypt_or_decrypt(message)
 
-    sys.stdout = open("output/packets.txt", "w")
+    sys.stdout = open("output/sent_packets.txt", "w")
     # Send packets, collect responses, display packets
     while len(encrypted_message) > 0:
         # get the encrypted character
@@ -40,7 +40,7 @@ def main():
 
     # Send the end sequence to indicate that the message is finished being sent
     p = IP(dst="yahoo.com") / TCP()
-    ip_steg.encode_character_in_packet(p, chr(65535))
+    ip_steg.encode_character_in_packet(p, chr(utility.get_escape_sequence()))
     send(p)
     p.show()
 
