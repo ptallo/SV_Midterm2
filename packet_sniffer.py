@@ -29,7 +29,7 @@ def main():
 
     sys.stdout = open(output_path + "message.txt", 'w')
     ip_steg = IpIdSteganography()
-    print("MESSAGE: " + ip_steg.decode_message_from_packets(sniffed_packets) + "\n\n")
+    print("MESSAGE: " + ip_steg.decode_message_from_packets(sniffed_packets[:len(sniffed_packets)-1]) + "\n\n")
     for p in sniffed_packets:
         p.show()
 
