@@ -21,14 +21,14 @@ class SteganographyScheme:
 
     def decode_message_from_packets(self, packets, random_ints):
         message = [" " for x in random_ints]
-        message_len = len(packets)
+        max_pos = 0
         for p in packets:
             character, position = self.decode_character_from_packet(p, random_ints)
             if character != utility.get_escape_sequence():
                 message[position] = character
-            else:
-                message_len = position
-        encrypted_string = "".join(message[:message_len])
+                if position > max_pos:
+                    max_pos = position
+        encrypted_string = "".join(message[:max_pos])
         return utility.encrypt_or_decrypt(encrypted_string)
 
     def decode_character_from_packet(self, input_packet, random_ints):
