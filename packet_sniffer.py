@@ -40,7 +40,7 @@ def main():
     print("Sniffing...")
     sniffed_packets = sniff(store=True, lfilter=filter_packet, stop_filter=end_filter)
 
-    sys.stdout = open(output_path + "recieved_packets.txt", 'w')
+    sys.stdout = open(output_path + "received_packets.txt", 'w')
     ip_steg = IpIdSteganography()
     for p in sniffed_packets:
         p.show()
