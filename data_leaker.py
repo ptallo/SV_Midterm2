@@ -7,10 +7,6 @@ import utility
 # Imports from our project
 from encoding_scheme import *
 
-def filter_packet(p):
-    return p.haslayer(IP) and p.haslayer(TCP)
-
-
 def main():
     # Generate the output folder if it does not exist
     output_path = "./output/"

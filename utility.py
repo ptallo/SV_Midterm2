@@ -2,8 +2,12 @@ one_time_pad = None
 escape_sequence = None
 random_seed = None
 
-
 def encrypt_or_decrypt(message):
+    '''
+    Encrypts or decrypts the message with a one time pad.
+    :param message: string to be encrypted or decrypted
+    :return: message encrypted with a one time pad
+    '''
     if one_time_pad is None:
         get_one_time_pad()
     if len(message) > len(one_time_pad):
@@ -24,6 +28,10 @@ def xor_two_str(s1, s2):
 
 
 def get_escape_sequence():
+    """
+    Gets the escape sequence used for stop function on sniffer
+    :return: escape sequence
+    """
     global escape_sequence
     if escape_sequence is None:
         f = open("input/escape_character.txt", "r")

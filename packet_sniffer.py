@@ -11,10 +11,23 @@ sequence_numbers = [random.randint(2 ** 31, 2 ** 32) for x in range(len(utility.
 
 
 def filter_packet(p):
+    """
+    Takes a packet and filters ensuring that it has an ip, tcp, sequence number and the number
+    is contained in the randomly generated sequence numbers.  Determines if the packets has
+    data encoded within it.
+    :param p: packet object
+    :return: bool
+    """
     return p.haslayer(IP) and p.haslayer(TCP) and p[TCP].seq in sequence_numbers
 
 
 def end_filter(p):
+    """
+    Used to determine when the end of message has be reached by checking for the escape sequence.
+    Determines if the sniffer should end.
+    :param p: packet object
+    :return: bool
+    """
     return p[IP].id == utility.get_escape_sequence()
 
 
