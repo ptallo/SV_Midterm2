@@ -3,8 +3,9 @@ import random
 
 import utility
 
-# For demonstration purposes, we use the same one-time pad for all executions
-# A real attacker would only run this program once, and write a new program for subsequent attacks
+# For demonstration purposes, we use the same random seed (stored in a file) for all executions
+# A real attacker would only run this program once, and write a new program with a new random seed 
+# for subsequent attacks
 random.seed(utility.get_random_seed())
 
 

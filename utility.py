@@ -34,6 +34,9 @@ def get_escape_sequence():
 
 
 def get_one_time_pad():
+    # For demonstration purposes, we use the same one-time pad (stored in a file) for all executions
+    # A real attacker would only run this program once, and write a new program with a new one-time pad 
+    # for subsequent attacks
     global one_time_pad
     if one_time_pad is None:
         f = open("input/one_time_pad.txt", "r")
@@ -44,6 +47,9 @@ def get_one_time_pad():
 
 
 def get_random_seed():
+    # For demonstration purposes, we use the same random seed (stored in a file) for all executions
+    # A real attacker would only run this program once, and write a new program with a new random seed 
+    # for subsequent attacks
     global random_seed
     if random_seed is None:
         f = open("input/random_seed.txt", "r")
